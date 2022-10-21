@@ -10,12 +10,24 @@ function setCardType(type) {
   const colors = {
     visa: ["#436D99", "#2D57F2"],
     mastercard: ["#DF6F29", "#C69347"],
+    elo: ["#2D57F2", "yellow"],
+    hipercard: ["#f35932", "#fa1212"],
     default: ["black", "gray"],
   }
   
   ccBgColor01.setAttribute("fill", colors[type][0])
   ccBgColor02.setAttribute("fill", colors[type][1])
-  ccLogo.setAttribute("src", `cc-${type}.svg`)
+  switch (type) {
+    case "hipercard":
+      ccLogo.setAttribute("src", `cc-${type}.png`)
+      break
+    case "elo":
+      ccLogo.setAttribute("src", `cc-${type}.png`)
+      break
+    default:
+      ccLogo.setAttribute("src", `cc-${type}.svg`)
+      break
+  }
 }
 globalThis.setCardType = setCardType
 
@@ -47,6 +59,16 @@ const expirationDateMasked = IMask(expirationDate, expirationDatePattern)
 const cardNumber = document.querySelector("#card-number")
 const cardNumberPattern = {
   mask: [
+    {
+      mask: "0000 0000 0000 0000",
+      regex:/^2\d{0,15}/,
+      cardtype: "elo",
+    },
+    {
+      mask: "0000 0000 0000 0000",
+      regex:/^3\d{0,15}/,
+      cardtype: "hipercard",
+    },
     {
       mask: "0000 0000 0000 0000",
       regex:/^4\d{0,15}/,
